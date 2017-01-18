@@ -1,0 +1,66 @@
+\ProvidesPackage{todo} 
+
+% ToDo notes
+%
+% Usage example 1: \note{Something that you need to do}
+% Usage example 2: \note[Short description for the todo's list]{Any lengthy text you like}
+% Usage example 3: \comment{This is an amazing comment}
+%
+% For the todos' list, put the command \listoftodo after \maketitle
+
+
+% Required packages
+
+\usepackage{ifdraft}
+\usepackage{tocloft}
+\usepackage{xcolor}
+
+
+
+% The actual stuff below
+
+
+\definecolor{darkgreen}{rgb}{0.0, 0.5, 0.0}
+
+
+\ifdraft{
+    \usepackage[a4paper,textwidth=345pt,textheight=598pt, marginparwidth=6cm, marginparsep=0.5cm, outer=7cm]{geometry}
+}{}
+
+
+% Todos
+
+\newcommand{\listoftodoname}{{\Large List of ToDo's}}
+\newlistof{todo}{td}{\listoftodoname}
+
+\makeatletter%
+\def\todo{\@ifnextchar[{\@with}{\@without}}%
+\def\@with[#1]#2{%
+\ifdraft{%
+\refstepcounter{todo}%
+\noindent\textcolor{blue}{$^{\thetodo}$}\marginpar{\scriptsize\textcolor{blue}{\texttt{ToDo \thetodo.}} #2}%
+\addcontentsline{td}{todo}{\protect\numberline{\thetodo}#1}%
+}{}%
+}%
+\def\@without#1{%
+\ifdraft{%
+\refstepcounter{todo}%
+\noindent\textcolor{blue}{$^{\thetodo}$}\marginpar{\scriptsize\textcolor{blue}{\texttt{ToDo \thetodo.}} #1}%
+\addcontentsline{td}{todo}{\protect\numberline{\thetodo}#1}%
+}{}%
+}%
+\makeatother%
+
+\newcommand{\hlistoftodo}{\ifdraft{\listoftodo}{}}
+
+
+% Comments
+
+\newcounter{commentcnt}
+\newcommand{\comment}[1]{%
+\ifdraft{%
+\refstepcounter{commentcnt}%
+\noindent\textcolor{darkgreen}{$^{\thecommentcnt}$}\marginpar{\scriptsize\textcolor{darkgreen}{\texttt{Comment \thecommentcnt.}} #1}%
+}{}%
+}
+
