@@ -4,6 +4,7 @@ Usage examples:
 - `\note{Something that you need to do}`
 - `\note[Short description for the todo's list]{Any lengthy text you like}`
 - `\comment{This is an amazing comment}`
+
 And have a look at the usage_example.tex!
 
 
